@@ -11,5 +11,11 @@ export const AnyCardSampleData: CardData[] = [
     description: 'Description 1',
     imageUrl: 'https://picsum.photos/200/300',
     notes: 'Notes 1'
+  },
+  {
+    title: 'Title 2',
+    description: 'Description 2',
+    imageUrl: 'https://picsum.photos/200/300',
+    notes: 'Notes 2'
   }
 ];

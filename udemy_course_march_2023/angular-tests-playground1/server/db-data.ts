@@ -1,3 +1,6 @@
+import { Course } from "src/core/models/course";
+import { Lesson } from "src/core/models/lesson";
+
 export const COURSES: any = {
 
   12: {
@@ -552,10 +555,10 @@ export const LESSONS = {
 
 
 
-export function findCourseById(courseId: number) {
+export function findCourseById(courseId: number): Course {
   return COURSES[courseId];
 }
 
-export function findLessonsForCourse(courseId: number) {
+export function findLessonsForCourse(courseId: number): Lesson[] {
   return Object.values(LESSONS).filter(lesson => lesson.courseId == courseId);
 }

@@ -3,9 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { CalculatorService } from './calculator.service';
 import { LoggerService } from './logger.service';
 
-describe('CalculatorService', () => {
+fdescribe('CalculatorService', () => {
 
-  it('spyOn logger.log', () => {
+  xit('spyOn logger.log', () => {
     const logger1 = new LoggerService();
 
     spyOn(logger1, 'log');

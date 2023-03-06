@@ -3,9 +3,11 @@ import { TestBed } from '@angular/core/testing';
 import { CoursesService } from './courses.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { Course } from '../models/course';
+import { COURSES } from 'server/db-data';
 
-fdescribe('CoursesService', () => {
-  let service: CoursesService,
+describe('CoursesService', () => {
+  let coursesService: CoursesService,
     httpTestingController: HttpTestingController;
 
 
@@ -26,15 +28,56 @@ fdescribe('CoursesService', () => {
     });
 
     // service = TestBed.inject(CoursesService);
-    service = TestBed.get(CoursesService);
+    coursesService = TestBed.get(CoursesService);
     httpTestingController = TestBed.get(HttpTestingController);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(coursesService).toBeTruthy();
   });
 
   it('should retrieve all courses', () => {
-    expect(service.findAllCourses()).toBeTruthy();
+    coursesService.findAllCourses().subscribe(courses => {
+      expect(courses).toBeTruthy('No courses returned');
+      if (courses) {
+        const course: Course | undefined = courses.find(course => course.id === 12);
+        expect(course).toBeTruthy('Could not find course with id: 12');
+        expect(course?.id).toBe(12);
+      } else {
+        fail('No courses returned');
+      }
+    });
+
+    const req = httpTestingController.expectOne('/api/courses');
+    expect(req.request.method).toEqual('GET');
+    req.flush({ payload: Object.values(COURSES) });
+  });
+
+  describe('.findCourseById', () => {
+    it('should retrieve course by id', () => {
+      coursesService.findCourseById(12).subscribe(course => {
+        expect(course).toBeTruthy();
+        expect(course?.id).toBe(12);
+      });
+
+      const req = httpTestingController.expectOne('/api/courses/12');
+      expect(req.request.method).toEqual('GET');
+      req.flush(COURSES[12]);
+    });
+
+    it('should raise error if required id is different from the expected', () => {
+      coursesService.findCourseById(12).subscribe(course => {
+        expect(course?.id).not.toBe(12);
+      });
+
+      const req = httpTestingController.expectOne('/api/courses/12');
+      expect(req.request.method).toEqual('GET');
+      req.flush(COURSES[1]);
+    });
+
+  });
+
+  afterEach(() => {
+    httpTestingController.verify();
   });
 });

@@ -77,6 +77,25 @@ describe('CoursesService', () => {
 
   });
 
+  fit('should save the course data', () => {
+    const data = { titles: {
+      description: 'Testing course gigi!'
+    } };
+    coursesService.saveCourse(12, data).subscribe(course => {
+      expect(course?.id).toBe(12);
+      expect(course?.titles.description).toBe(data.titles.description);
+    });
+
+    const req = httpTestingController.expectOne('/api/courses/12');
+    expect(req.request.method).toEqual('PUT');
+    expect(req.request.body.titles.description).toEqual(data.titles.description);
+    req.flush({
+      ...COURSES[12],
+      ...data,
+      // ...{ id: 13 } // Uncomment to see the test fail
+    });
+  });
+
   afterEach(() => {
     httpTestingController.verify();
   });

@@ -33,10 +33,17 @@ describe('CalculatorService', () => {
     beforeEach(() => {
       logger = jasmine.createSpyObj('LoggerService', ['log']);
 
-      service = new CalculatorService(logger);
+      TestBed.configureTestingModule({
+        providers: [
+          CalculatorService,
+          {
+            provide: LoggerService,
+            useValue: logger
+          }
+        ]
+      });
 
-      // TestBed.configureTestingModule({});
-      // service = TestBed.inject(CalculatorService);
+      service = TestBed.get(CalculatorService);
     });
 
     it('should be created', () => {

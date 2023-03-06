@@ -28,16 +28,12 @@ describe('CalculatorService', () => {
 
   describe('with beforeEach', () => {
     let service: CalculatorService;
-    let logger: LoggerService;
+    let logger: LoggerService | any;
 
     beforeEach(() => {
-      logger = new LoggerService();
+      logger = jasmine.createSpyObj('LoggerService', ['log']);
 
-      spyOn(logger, 'log');
-
-      service = new CalculatorService(
-        logger
-      );
+      service = new CalculatorService(logger);
 
       // TestBed.configureTestingModule({});
       // service = TestBed.inject(CalculatorService);
@@ -49,7 +45,6 @@ describe('CalculatorService', () => {
     });
 
     it('should add two numbers', () => {
-      // pending('gigi');
       expect(service.add(1, 2)).toBe(3);
       expect(logger.log).toHaveBeenCalledWith('add', [1, 2]);
       expect(logger.log).toHaveBeenCalledTimes(1);

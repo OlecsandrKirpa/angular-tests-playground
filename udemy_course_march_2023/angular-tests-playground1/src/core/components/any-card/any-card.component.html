@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="d-flex flex-column">
+    <h3 [innerText]="title" ></h3>
+
+    <img style="max-height: 200px; max-width: 300px;" [src]="imageUrl" >
+
+    <span [innerText]="description" ></span>
+
+    <small *ngIf="notes" class="text-muted" [innerText]="notes" ></small>
+
+    <div class="d-flex flex-row">
+      <button (click)="sayHi()" class="me-1">
+        Ciao!
+      </button>
+
+      <button (click)="sayNo()">
+        No :(
+      </button>
+    </div>
+  </div>
+</div>

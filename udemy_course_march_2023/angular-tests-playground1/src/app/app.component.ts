@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AnyCardSampleData } from 'src/core/components/any-card/sample-data';
+
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-tests-playground1';
+
+  readonly data = AnyCardSampleData;
 }

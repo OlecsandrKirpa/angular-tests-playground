@@ -2,7 +2,7 @@ Following a udemy course.
 
 npx cypress run --record --key <your_key>
 
-
+ng test --watch=false --code-coverage
 
 # LINKS
 - https://www.udemy.com/course/angular-testing-course/

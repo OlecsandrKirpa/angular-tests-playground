@@ -1,5 +1,9 @@
 Following a udemy course.
 
+npx cypress run --record --key <your_key>
+
+
+
 # LINKS
 - https://www.udemy.com/course/angular-testing-course/
 

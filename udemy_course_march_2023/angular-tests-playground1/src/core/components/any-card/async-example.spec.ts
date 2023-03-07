@@ -1,4 +1,4 @@
-import { fakeAsync, flush, flushMicrotasks, tick } from "@angular/core/testing";
+import { fakeAsync, flush, flushMicrotasks, tick, waitForAsync } from "@angular/core/testing";
 import { Observable, of } from "rxjs";
 import { delay } from "rxjs/operators";
 
@@ -122,13 +122,24 @@ describe('async texamples', () => {
     expect(test).toBeTrue();
   }));
 
-  // it('with async/await', async () => {
+  /**
+   * The reason why we use waitForAsync is because it supports actual http requests.
+   * If, for some reason, you need to fetch actual data from database or load external resources, you can use waitForAsync.
+   */
+  // it('async test example - Observables with delay (but woith waitForAsync())', waitForAsync(() => {
   //   let test = false;
 
-  //   setTimeout(() => {
-  //     test = true;
-  //   }, 1000);
+  //   const test$ = of(test).pipe(delay(1000));
 
-  //   await expectAsync(test).toBeTrue();
-  // });
+  //   test$.subscribe(() => {
+  //     test = true;
+  //   });
+
+  // // fixture is typeof ComponentFixture<YourTestingComponent>;
+  //   fixture.whenStable().then(() => {
+
+  //     expect(test).toBeTrue();
+  //   });
+
+  // }));
 });

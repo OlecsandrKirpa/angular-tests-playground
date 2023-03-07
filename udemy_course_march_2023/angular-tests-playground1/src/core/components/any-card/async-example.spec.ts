@@ -1,4 +1,6 @@
 import { fakeAsync, flush, flushMicrotasks, tick } from "@angular/core/testing";
+import { Observable, of } from "rxjs";
+import { delay } from "rxjs/operators";
 
 describe('async texamples', () => {
   it('with setTimeout()', (done: DoneFn) => {
@@ -35,7 +37,7 @@ describe('async texamples', () => {
   it('async test example - plain Promise', fakeAsync(() => {
     let test = false;
 
-    console.log('Creating promise');
+    // console.log('Creating promise');
 
     // setTimeout(() => console.log('setTimeout 1 callback called'))
 
@@ -44,16 +46,16 @@ describe('async texamples', () => {
 
     // Promise is a "microtask"
     Promise.resolve().then(() => {
-      console.log('Promise first then() evaluated successfully');
+      // console.log('Promise first then() evaluated successfully');
       return Promise.resolve();
     }).then(() => {
-      console.log('Promise second then() evaluated successfully');
+      // console.log('Promise second then() evaluated successfully');
       test = true;
     })
 
     flushMicrotasks();
 
-    console.log('End of test spec');
+    // console.log('End of test spec');
 
     expect(test).toBeTrue();
   }));
@@ -83,6 +85,41 @@ describe('async texamples', () => {
     tick(500);
 
     expect(counter).toBe(11);
+  }));
+
+  it('async test example - sync Observables with of(<value>)', () => {
+    let test = false;
+
+    // console.log('Creating observable');
+
+    const test$ = of(test);
+
+    test$.subscribe(() => {
+      test = true;
+    });
+
+    // console.log('End of test spec');
+
+    expect(test).toBeTrue();
+  });
+
+  it('async test example - Observables with delay', fakeAsync(() => {
+    let test = false;
+
+    // console.log('Creating observable');
+
+    const test$ = of(test).pipe(delay(1000));
+
+    test$.subscribe(() => {
+      test = true;
+      // console.log('test$ subscribe callback called');
+    });
+
+    tick(1000);
+
+    // console.log('End of test spec');
+
+    expect(test).toBeTrue();
   }));
 
   // it('with async/await', async () => {
